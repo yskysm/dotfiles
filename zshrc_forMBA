@@ -14,6 +14,18 @@ PS1=$'%{\e[0;38;5;075m%}%B%n%{\e[m%}@air%b%# '
 RPS1="[%~][%{$fg[yellow]%}%T%{$reset_color%}]"
 SPROMPT="%{$fg[red]%}correct: %R -> %r [nyae]? %{$reset_color%}"
 
+# git
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () { vcs_info }
+RPS1=$RPS1'${vcs_info_msg_0_}'
+
+
 ### Alias
 alias gcc='gcc -g -O0 -Wall'
 alias ls='ls -FG'
