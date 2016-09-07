@@ -93,7 +93,7 @@ man() {
 }
 
 ### less coloring
-export LESS='-RNIMx4'
+export LESS='-RNIMSx4'
 export LESSOPEN='| lessfilter %s'
 
 ### ffmp4-speedup
