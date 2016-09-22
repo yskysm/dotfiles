@@ -136,17 +136,17 @@ ffmp4-speedup () {
 }
 
 ### open in new window when ssh
-ssh_tmux() {
-    ssh_cmd="ssh $@"
-    tmux new-window -n "$*" "$ssh_cmd"
-}
+# ssh_tmux() {
+#     ssh_cmd="ssh $@"
+#     tmux new-window -n "$*" "$ssh_cmd"
+# }
 
-if [ $TERM = "screen" ] ; then
-    tmux lsw > /dev/null
-    if [ $? -eq 0 ] ; then
-        alias ssh=ssh_tmux
-    fi
-fi
+# if [ $TERM = "screen" ] ; then
+#     tmux lsw > /dev/null
+#     if [ $? -eq 0 ] ; then
+#         alias ssh=ssh_tmux
+#     fi
+# fi
 
 ### tmux Window name setting
 HOSTNAME='air'  # only for MacBook Air
@@ -157,3 +157,9 @@ chpwd() {
     mypath=${PWD:t}
     echo -ne "\ek$HOSTNAME:$mypath\e\\"
 }
+
+### pyenv
+PYENV_ROOT=~/.pyenv
+export PATH=$PATH:$PYENV_ROOT/bin
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
