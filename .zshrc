@@ -3,13 +3,13 @@ LANG=en_US.UTF-8
 #LANG=ja_JP.UTF-8
 
 ### Launch tmux
-[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
+[[ -z "$TMUX" && ! -z "$PS1" ]] && /usr/local/bin/wcwidth-cjk /opt/local/bin/tmux
 
 ### Prompt Settings
 autoload -U colors
 colors
 
-PS1=$'%{\e[0;38;5;075m%}%B%n%{\e[m%}@air%b%# '
+PS1=$'%{\e[0;38;5;075m%}%B%n%{\e[m%}@air%b'
 #RPS1='[%~]'
 RPS1="[%~][%{$fg[yellow]%}%T%{$reset_color%}]"
 SPROMPT="%{$fg[red]%}correct: %R -> %r [nyae]? %{$reset_color%}"
@@ -23,8 +23,9 @@ zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 precmd () { vcs_info }
-RPS1=$RPS1'${vcs_info_msg_0_}'
+PS1=$PS1'${vcs_info_msg_0_}'
 
+PS1=$PS1'%# '
 
 ### Alias
 alias gcc='gcc -g -O0 -Wall'
@@ -35,8 +36,6 @@ alias grep='grep --with-filename --line-number --color=always'
 alias egrep='egrep --with-filename --line-number --color=always'
 alias fgrep='fgrep --with-filename --line-number --color=always'
 alias dirs='dirs -v'
-alias ipython='ipython2-2.7'
-alias memo='emacs ~/Dropbox/Memo.txt'
 alias dl='cd ~/Downloads'
 alias ds='cd ~/Desktop'
 
@@ -46,6 +45,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 eval $(gdircolors)
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 setopt LIST_ROWS_FIRST
+setopt combining_chars
 
 ### History
 SAVEHIST=100000000000000
@@ -95,6 +95,7 @@ man() {
 ### less coloring
 export LESS='-RNIMSx4'
 export LESSOPEN='| lessfilter %s'
+export LESSCHARSET='utf-8'
 
 ### ffmp4-speedup
 ffmp4-speedup-filter () {
@@ -136,17 +137,17 @@ ffmp4-speedup () {
 }
 
 ### open in new window when ssh
-# ssh_tmux() {
-#     ssh_cmd="ssh $@"
-#     tmux new-window -n "$*" "$ssh_cmd"
-# }
+ssh_tmux() {
+    ssh_cmd="ssh $@"
+    tmux new-window -n "$*" "$ssh_cmd"
+}
 
-# if [ $TERM = "screen" ] ; then
-#     tmux lsw > /dev/null
-#     if [ $? -eq 0 ] ; then
-#         alias ssh=ssh_tmux
-#     fi
-# fi
+if [ $TERM = "screen" ] ; then
+    tmux lsw > /dev/null
+    if [ $? -eq 0 ] ; then
+        alias ssh=ssh_tmux
+    fi
+fi
 
 ### tmux Window name setting
 HOSTNAME='air'  # only for MacBook Air
