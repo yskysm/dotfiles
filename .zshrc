@@ -38,6 +38,7 @@ alias fgrep='fgrep --with-filename --line-number --color=always'
 alias dirs='dirs -v'
 alias dl='cd ~/Downloads'
 alias ds='cd ~/Desktop'
+alias vim='/opt/local/bin/vim'
 
 ### Completion
 autoload -U compinit && compinit
