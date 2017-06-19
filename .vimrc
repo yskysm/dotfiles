@@ -53,7 +53,7 @@ set wildmenu
 " コマンドを画面の最下部に表示する
 set showcmd
 " クリップボードを共有する(設定しないとvimとのコピペが面倒です)
-set clipboard=unnamed
+set clipboard=unnamed,autoselect
 
 " 改行時にインデントを引き継いで改行する
 set autoindent
