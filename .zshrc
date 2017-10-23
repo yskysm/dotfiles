@@ -1,4 +1,18 @@
-### Set Language to English
+
+
+#
+# User configuration sourced by interactive shells
+#
+
+# Source zim
+if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
+  source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
+fi
+
+bindkey -d  # いったんキーバインドをリセット
+bindkey -e  # emacsモードで使う
+
+## Set Language to English
 LANG=en_US.UTF-8
 #LANG=ja_JP.UTF-8
 
