@@ -11,9 +11,6 @@ au BufWrite /private/tmp/crontab.* set nowritebackup nobackup
 " Don't write backup file if vim is being called by "chpass"
 au BufWrite /private/etc/pw.* set nowritebackup nobackup
 
-colorscheme hybrid
-syntax on
-
 " matchit {{{
 " if や for などの文字にも%で移動できるようになる
 source $VIMRUNTIME/macros/matchit.vim
@@ -25,10 +22,6 @@ let b:match_ignorecase = 1
 set t_Co=256
 " 色づけを on にする
 syntax on
-" カラースキーマを設定する。jellybeansは最初はないカラースキーマだが、次回説明するプラグインにて説明する。
-"colorscheme jellybeans
-" 今のところ好きなカラースキーマを使っていて大丈夫。
-colorscheme desert
 " ターミナルの右端で文字を折り返さない
 set nowrap
 
@@ -46,8 +39,6 @@ set smartcase
 set ruler
 " 行番号を付ける
 set number
-" タブ文字の表示 ^I で表示されるよ
-set list
 " コマンドライン補完が強力になる
 set wildmenu
 " コマンドを画面の最下部に表示する
@@ -58,13 +49,13 @@ set clipboard=unnamed,autoselect
 " 改行時にインデントを引き継いで改行する
 set autoindent
 " インデントにつかわれる空白の数
-set shiftwidth=4
+set shiftwidth=2
 " <Tab>押下時の空白数
-set softtabstop=4
+set softtabstop=2
 " <Tab>押下時に<Tab>ではなく、ホワイトスペースを挿入する
 set expandtab
 " <Tab>が対応する空白の数
-set tabstop=4
+set tabstop=2
 
 " インクリメント、デクリメントを16進数にする(0x0とかにしなければ10進数です。007をインクリメントすると010になるのはデフォルト設定が8進数のため)
 set nf=hex
@@ -91,10 +82,80 @@ endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 
 " インストールするプラグイン
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfilter'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'sjl/badwolf'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \ 'windows' : 'make -f make_mingw32.mak',
+      \ 'cygwin' : 'make -f make_cygwin.mak',
+      \ 'mac' : 'make -f make_mac.mak',
+      \ 'unix' : 'make -f make_unix.mak',
+      \ },
+      \ }
+NeoBundle 'justmao945/vim-clang'
+NeoBundle 'Shougo/neoinclude.vim'
 
 call neobundle#end()
 
+NeoBundleCheck
 " ファイルタイプ別のプラグイン/インデントを有効にする
 filetype plugin indent on
+
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
+" カラースキーマを設定する。jellybeansは最初はないカラースキーマだが、次回説明するプラグインにて説明する。
+colorscheme badwolf
+
+" char chord
+set encoding=utf-8
+set fileencodings=utf-8
+set fileformats=unix,dos,mac
+
+" 'Shougo/neocomplete.vim' {{{
+let g:neocomplete#enable_at_startup = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+"""}}}
+
+" 'justmao945/vim-clang' {{{
+
+" disable auto completion for vim-clanG
+"let g:clang_auto = 0
+"let g:clang_complete_auto = 0
+"let g:clang_auto_select = 0
+"let g:clang_use_library = 1
+
+" default 'longest' can not work with neocomplete
+"let g:clang_c_completeopt   = 'menuone'
+"let g:clang_cpp_completeopt = 'menuone'
+"
+"if executable('clang-3.6')
+"  let g:clang_exec = 'clang-3.6'
+"elseif executable('clang-3.5')
+"  let g:clang_exec = 'clang-3.5'
+"elseif executable('clang-3.4')
+"  let g:clang_exec = 'clang-3.4'
+"else
+"  let g:clang_exec = 'clang'
+"endif
+"
+"if executable('clang-format-3.6')
+"  let g:clang_format_exec = 'clang-format-3.6'
+"elseif executable('clang-format-3.5')
+"  let g:clang_format_exec = 'clang-format-3.5'
+"elseif executable('clang-format-3.4')
+"  let g:clang_format_exec = 'clang-format-3.4'
+"else
+"  let g:clang_exec = 'clang-format'
+"endif
+"
+"let g:clang_c_options = '-std=c11'
+"let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
+
+" }}}
