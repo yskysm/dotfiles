@@ -53,6 +53,7 @@ alias dirs='dirs -v'
 alias dl='cd ~/Downloads'
 alias ds='cd ~/Desktop'
 alias vim='/opt/local/bin/vim'
+alias ldiff='latexdiff-vc -e utf8 --git --flatten --force -d diff -r HEAD'
 
 ### Completion
 autoload -U compinit && compinit
