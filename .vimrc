@@ -44,7 +44,7 @@ set wildmenu
 " コマンドを画面の最下部に表示する
 set showcmd
 " クリップボードを共有する(設定しないとvimとのコピペが面倒です)
-set clipboard=unnamed,autoselect
+set clipboard+=unnamedplus
 
 " 改行時にインデントを引き継いで改行する
 set autoindent
@@ -123,39 +123,48 @@ let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 """}}}
 
-" 'justmao945/vim-clang' {{{
+" reset augroup
+augroup MyAutoCmd
+    autocmd!
+augroup END
 
-" disable auto completion for vim-clanG
-"let g:clang_auto = 0
-"let g:clang_complete_auto = 0
-"let g:clang_auto_select = 0
-"let g:clang_use_library = 1
+let $CACHE = empty($XDG_CACHE_HOME) ? expand('$HOME/.cache') : $XDG_CACHE_HOME
+let $CONFIG = empty($XDG_CONFIG_HOME) ? expand('$HOME/.config') : $XDG_CONFIG_HOME
+let $DATA = empty($XDG_DATA_HOME) ? expand('$HOME/.local/share') : $XDG_DATA_HOME
 
-" default 'longest' can not work with neocomplete
-"let g:clang_c_completeopt   = 'menuone'
-"let g:clang_cpp_completeopt = 'menuone'
-"
-"if executable('clang-3.6')
-"  let g:clang_exec = 'clang-3.6'
-"elseif executable('clang-3.5')
-"  let g:clang_exec = 'clang-3.5'
-"elseif executable('clang-3.4')
-"  let g:clang_exec = 'clang-3.4'
-"else
-"  let g:clang_exec = 'clang'
-"endif
-"
-"if executable('clang-format-3.6')
-"  let g:clang_format_exec = 'clang-format-3.6'
-"elseif executable('clang-format-3.5')
-"  let g:clang_format_exec = 'clang-format-3.5'
-"elseif executable('clang-format-3.4')
-"  let g:clang_format_exec = 'clang-format-3.4'
-"else
-"  let g:clang_exec = 'clang-format'
-"endif
-"
-"let g:clang_c_options = '-std=c11'
-"let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
+" {{{ dein
+let s:dein_dir = expand('$DATA/dein')
 
+if &runtimepath !~# '/dein.vim'
+    let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+    " Auto Download
+    if !isdirectory(s:dein_repo_dir)
+        call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
+    endif
+
+    execute 'set runtimepath^=' . s:dein_repo_dir
+endif
+
+
+" dein.vim settings
+
+if dein#load_state(s:dein_dir)
+    call dein#begin(s:dein_dir)
+
+    let s:toml_dir = expand('$CONFIG/dein')
+
+    call dein#load_toml(s:toml_dir . '/plugins.toml', {'lazy': 0})
+    call dein#load_toml(s:toml_dir . '/lazy.toml', {'lazy': 1})
+    if has('python3')
+        call dein#load_toml(s:toml_dir . '/python.toml', {'lazy': 1})
+    endif
+
+    call dein#end()
+    call dein#save_state()
+endif
+
+if has('vim_starting') && dein#check_install()
+    call dein#install()
+endif
 " }}}
