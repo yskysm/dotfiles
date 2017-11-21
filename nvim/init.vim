@@ -74,6 +74,8 @@ set autoread
 set hidden
 " 入力中のコマンドをステータスに表示する
 set showcmd
+" スペルチェック
+set spell
 " }}}
 
 " appearance {{{
