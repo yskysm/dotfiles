@@ -202,3 +202,8 @@ let g:vimtex_view_general_viewer
       \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
 let g:vimtex_view_general_options = '-r @line @pdf @tex'
 " }}}
+
+" python path {{{
+let g:python_host_prog = expand('/opt/local/bin/python')
+let g:python3_host_prog = expand('/opt/local/bin/python3')
+" }}}
