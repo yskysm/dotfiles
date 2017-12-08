@@ -43,7 +43,7 @@ PS1=$PS1'%# '
 
 ### Alias
 alias gcc='gcc -g -O0 -Wall'
-alias ls='ls -FG'
+alias ls='/bin/ls -FG'
 alias ll='ls -l'
 alias la='ls -A'
 alias grep='grep --with-filename --line-number --color=always'
